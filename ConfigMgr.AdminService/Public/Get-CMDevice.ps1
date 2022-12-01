@@ -7,7 +7,8 @@ function Get-CMDevice {
         [string]$SMSID,
         [string]$SerialNumber,
         [string]$SMBIOSGUID,
-        [string]$Select
+        [string]$Select,
+        $credential
     )
 
     try {
@@ -27,7 +28,11 @@ function Get-CMDevice {
                     $Filter = "?`$select=$($Select)"
                 }
             }
-            Invoke-CMGet -URI "$($script:ASVerURI)Device$($Filter)"
+            if ($credential) {
+              Invoke-CMGet -URI "$($script:ASVerURI)Device$($Filter)" -credential $credential
+            } else {
+              Invoke-CMGet -URI "$($script:ASVerURI)Device$($Filter)"
+            }
         }
         return $Result | Select-Object -Property * -ExcludeProperty _*, `@odata*
     }

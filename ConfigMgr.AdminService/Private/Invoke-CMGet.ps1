@@ -3,7 +3,9 @@ function Invoke-CMGet {
     param (
         [string]$URI,
         [string]$Token = $script:AdminServiceAuthToken.AccessToken,
-        [switch]$ReturnErrorToCaller
+        [switch]$ReturnErrorToCaller,
+        $credential
+
     )
     try {
         if ($URI -like "*AdminService_TokenAuth*" -or $URI -like "*CCM_Proxy_ServerAuth*" -or $URI -like "*CCM_Proxy_MutualAuth*") {
@@ -50,6 +52,8 @@ function Invoke-CMGet {
                 UseDefaultCredential = $True
             }
         }
+
+        if ($credential) { $params.add("credential",$credential) }
 
         Write-Verbose $URI
         $Result = Invoke-RestMethod @Params
