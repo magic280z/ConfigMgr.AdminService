@@ -44,18 +44,23 @@ function Invoke-CMGet {
             }
         }
         else {
+          if ($script:Credential) {
+             write-verbose "using local credential" 
+             $Params = @{
+                Method               = "GET"
+                ContentType          = "application/json"
+                URI                  = $URI
+                Credential           = $script:Credential
+              }
+          } else {
             $Params = @{
                 Method               = "GET"
                 ContentType          = "application/json"
                 URI                  = $URI
                 UseDefaultCredential = $True
             }
-
-          if ($script:Credential) {
-            write-verbose "using local credential" 
-            $params.add("Credential",$credential) 
-            $params.UseDefaultCredential = $false
           }
+
         }        
 
         Write-Verbose $URI        
