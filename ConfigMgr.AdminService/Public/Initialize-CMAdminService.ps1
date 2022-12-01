@@ -104,6 +104,7 @@ function Initialize-CMAdminService {
         if ($UseLocalAuth.IsPresent) {
             Write-Verbose "Using Local Auth"
             if ($credential) {
+              write-verbose "Saving credential"
               $script:Credential = $credential
             }
         }
@@ -213,6 +214,7 @@ function Initialize-CMAdminService {
         $ResultObj.ASVerURI = $script:ASVerURI
         $ResultObj.vault = $script:vault
         $ResultObj.AdminServiceAuthToken = $script:AdminServiceAuthToken
+        $resultobj.Credential = $script:Credential
         $ResultObj
     }
     catch {

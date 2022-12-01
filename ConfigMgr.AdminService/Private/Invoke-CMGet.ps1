@@ -3,8 +3,7 @@ function Invoke-CMGet {
     param (
         [string]$URI,
         [string]$Token = $script:AdminServiceAuthToken.AccessToken,
-        [switch]$ReturnErrorToCaller,
-        $credential
+        [switch]$ReturnErrorToCaller
 
     )
     try {
@@ -51,11 +50,15 @@ function Invoke-CMGet {
                 URI                  = $URI
                 UseDefaultCredential = $True
             }
-        }
 
-        if ($credential) { $params.add("credential",$credential) }
+          if ($script:Credential) {
+            write-verbose "using local credential" 
+            $params.add("Credential",$credential) 
+            $params.UseDefaultCredential = $false
+          }
+        }        
 
-        Write-Verbose $URI
+        Write-Verbose $URI        
         $Result = Invoke-RestMethod @Params
 
         if (($Result | Get-Member).Name -eq "Value") {
