@@ -92,6 +92,7 @@ function Initialize-CMAdminService {
             ASWmiURI = $null
             vault = $null
             AdminServiceAuthToken = $null
+            Credential = $null
         }
         if ($AdminServiceProviderURL) {
             $script:ASURI = if ($AdminServiceProviderURL -notlike '*/') { $AdminServiceProviderURL + "/" } else { $AdminServiceProviderURL }
@@ -100,6 +101,9 @@ function Initialize-CMAdminService {
         }
         if ($UseLocalAuth.IsPresent) {
             Write-Verbose "Using Local Auth"
+            if ($credential) {
+              $script:Credential = $credential
+            }
         }
         else {
             #NoVault
