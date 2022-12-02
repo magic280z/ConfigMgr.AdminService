@@ -42,6 +42,16 @@ function Invoke-CMPost {
             }
         }
         else {
+          if ($script:Credential) {
+             write-verbose "using local credential" 
+             $Params = @{
+                Method               = "POST"
+                ContentType          = "application/json"
+                Body                 = $Body | ConvertTo-Json -Depth 100
+                URI                  = $URI
+                Credential           = $script:Credential
+              }
+          } else {
             $Params = @{
                 Method               = "POST"
                 ContentType          = "application/json"
@@ -49,6 +59,7 @@ function Invoke-CMPost {
                 URI                  = $URI
                 UseDefaultCredential = $True
             }
+          }
         }
 
         Write-Verbose $URI
