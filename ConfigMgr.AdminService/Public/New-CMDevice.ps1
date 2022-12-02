@@ -20,7 +20,7 @@ function New-CMDevice {
             OverwriteExistingRecord = $overwrite
         }
 
-        $ExistingDevice = Get-CMDevice -Name $Name
+        $ExistingDevice = Get-CMDevice -Name $Name -smbiosguid $smbiosguid
         if ($ExistingDevice) {
             Write-Host "Another device exists with the name $($Name). Device not created." -ForegroundColor Yellow
             Return $ExistingDevice | Select-Object -Property * -ExcludeProperty _*, `@odata*
