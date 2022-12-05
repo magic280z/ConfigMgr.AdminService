@@ -26,7 +26,7 @@ function Get-CMApplication {
                 Invoke-CMGet -URI "$($script:ASVerURI)Application$($Filter)"
             }
             else {
-                Invoke-CMGet -URI "$($script:ASWmiURI)SMS_Application$($Filter)" -verbose
+                Invoke-CMGet -URI "$($script:ASWmiURI)SMS_Application$($Filter)"
             }
         }
         if ($IncludeSDMPackageXML) {
