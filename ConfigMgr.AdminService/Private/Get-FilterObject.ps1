@@ -4,7 +4,7 @@ function Get-FilterObject {
         [Parameter(Mandatory = $true)]
         [string]$Property,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $false)]
         [string]$Value,
 
         [Parameter(Mandatory = $false)]
@@ -17,10 +17,16 @@ function Get-FilterObject {
     else {
         $Value
     }
+    if ($value -eq "True") {
+      [PSCustomObject]@{
+          Property = $Property
+      }
 
-    [PSCustomObject]@{
-        Property = $Property
-        Operator = $Operator
-        Value    = $Value
+    } else {
+      [PSCustomObject]@{
+          Property = $Property
+          Operator = $Operator
+          Value    = $Value
+      }
     }
 }

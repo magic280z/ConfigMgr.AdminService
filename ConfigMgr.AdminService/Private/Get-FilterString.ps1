@@ -15,7 +15,7 @@ function Get-FilterString {
             else {
                 $_.Value
             }
-            "{0} {1} {2}" -f $_.Property, $_.Operator, $value
+            if ($_.operator) {"{0} {1} {2}" -f $_.Property, $_.Operator, $value} else {$_.property}
         } | Where-Object { $_ -ne '' }) -join 'and'))
 
     $Filter = $Filter.trim()
