@@ -39,14 +39,14 @@ function New-CMDirectRule {
             $RuleName = if (-not $RuleName) { $ResourceId } else { $RuleName }
 
             $RuleObject = if ($RuleName, $ResourceClassName, $ResourceID) {
-                @{
-                    collectionRule = @{
+                
+                    @{
                         "@odata.type"     = "#AdminService.SMS_CollectionRuleDirect"
                         ResourceClassName = $ResourceClassName
                         RuleName          = $RuleName
                         ResourceID        = $ResourceID
                     }
-                }
+                
             }
             else {
                 $null
