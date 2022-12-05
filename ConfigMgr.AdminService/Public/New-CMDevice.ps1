@@ -1,24 +1,22 @@
 function New-CMDevice {
-    [cmdletbinding(DefaultParameterSetName="col")]    
+    [cmdletbinding()]    
     param (
-        [parameter(Mandatory=$True, ParameterSetName="UUID")]
-        [parameter(mandatory=$true, ParameterSetName="mac")]
-        [parameter(mandatory=$true, ParameterSetName="Col")]
+        [parameter(Mandatory=$True, ParameterSetName="SMBIOSGUID",HelpMessage="Target computer desired netbiosname")]
+        [parameter(mandatory=$true, ParameterSetName="MacAddress",HelpMessage="Target computer desired netbiosname")]
+        [parameter(mandatory=$true, ParameterSetName="Add_Collection",HelpMessage="Target computer desired netbiosname")]
         [string]$Name,
-        [parameter(Mandatory=$True, ParameterSetName="UUID")]
-        [Parameter(Mandatory=$false, ParameterSetName="mac")]
-        [parameter(mandatory=$true, ParameterSetName="Col")]
+        [parameter(Mandatory=$True, ParameterSetName="SMBIOSGUID",HelpMessage="Target computer BIOS UUID/GUID")]
+        [Parameter(Mandatory=$false, ParameterSetName="MacAddress",HelpMessage="Target computer BIOS UUID/GUID")]
+        [parameter(mandatory=$true, ParameterSetName="Add_Collection",HelpMessage="Target computer BIOS UUID/GUID")]
         [string]$SMBIOSGUID,
-        [parameter(Mandatory=$false, ParameterSetName="UUID")]
-        [parameter(mandatory=$false, ParameterSetName="mac")]
-        [parameter(mandatory=$true, ParameterSetName="Col")]
+        [parameter(mandatory=$true, ParameterSetName="Add_Collection",HelpMessage="Collection to add computer to")]
         [string]$CollectionID,
-        [parameter(mandatory=$true, ParameterSetName="mac")]
-        [parameter(mandatory=$false, ParameterSetName="UUID")]
-        [parameter(mandatory=$true, ParameterSetName="Col")]
+        [parameter(mandatory=$true, ParameterSetName="MacAddress",HelpMessage="Target computer WinPE MAC Address")]
+        [parameter(mandatory=$false, ParameterSetName="SMBIOSGUID",HelpMessage="Target computer WinPE MAC Address")]
+        [parameter(mandatory=$true, ParameterSetName="Add_Collection",HelpMessage="Target computer WinPE MAC Address")]
         [string]$MacAddress,
-        [parameter(mandatory=$true, ParameterSetName="Col")]
-        [validatescript({ if ($pscmdlet.parametersetname -eq "col" -and $_ -eq $true) { $true } else {throw "Overwrite must be true to add to collection"}})]
+        [parameter(mandatory=$true, ParameterSetName="Add_Collection",HelpMessage="Overwrite current device record.  Must be true when adding to collection.")]
+        [validatescript({ if ($CollectionID -and $_ -eq $true) { $True } else {throw "Overwrite must be true to add to collection $($pscmdlet.parametersetname) $_"}})]
         [switch]$overwrite
 
     )
@@ -31,8 +29,10 @@ function New-CMDevice {
           OverwriteExistingRecord = $overwrite.tostring()
         }
 
-        if ($smbiosguid) { $body.add("SMBIOSGUID") = $smbiosguid}
-        if ($macaddress) { $body.add("MacAddress") = $MacAddress}
+        if ($smbiosguid) { $body.add("SMBIOSGUID",$smbiosguid)}
+        if ($macaddress) { $body.add("MACAddress",$MacAddress)}
+
+        #$body
 
         $Result = Invoke-CMPost -URI "$($script:ASWmiURI)SMS_Site.ImportMachineEntry" -Body $Body
         #$result = $Result | Select-Object -Property * -ExcludeProperty _*, `@odata*
@@ -42,7 +42,7 @@ function New-CMDevice {
           $Body = @{
             NetbiosName       = $Name
             SMBIOSGUID = $SMBIOSGUID            
-            MacAddress = $macaddress
+            MACAddress = $macaddress
             OverwriteExistingRecord = "true"
             AddToCollection = "true"
             CollectionRule = $colrule
