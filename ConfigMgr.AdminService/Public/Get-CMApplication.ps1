@@ -16,16 +16,17 @@ function Get-CMApplication {
             Invoke-CMGet -URI "$($script:ASWmiURI)SMS_Application($($CI_ID))"
         }
         else {
-            $FilterObjs = foreach ($key in ($PSBoundParameters.keys | Where-Object { $_ -ne "CI_ID" })) {
+            $FilterObjs = foreach ($key in ($PSBoundParameters.keys | Where-Object { $_ -notin ("CI_ID", "IncludeSDMPackageXML", "Verbose", "Debug")})) {
                 Get-FilterObject $Key $PSBoundParameters[$key]
             }
+            #write-host $filter.tostring()
             $Filter = $FilterObjs | Get-FilterString
 
             if ($DisplayName -or $CIGUID) {
                 Invoke-CMGet -URI "$($script:ASVerURI)Application$($Filter)"
             }
             else {
-                Invoke-CMGet -URI "$($script:ASWmiURI)SMS_Application$($Filter)"
+                Invoke-CMGet -URI "$($script:ASWmiURI)SMS_Application$($Filter)" -verbose
             }
         }
         if ($IncludeSDMPackageXML) {

@@ -3,7 +3,8 @@ function Get-CMCollection {
     param (
         [string]$CollectionID,
         [string]$Name,
-        [CollectionType]$CollectionType
+        [CollectionType]$CollectionType,
+        [string]$ObjectPath
     )
 
     try {
@@ -11,11 +12,11 @@ function Get-CMCollection {
             Invoke-CMGet -URI "$($script:ASWmiURI)SMS_Collection('$($CollectionID)')"    
         }
         else {
-            $FilterObjs = foreach ($key in ($PSBoundParameters.keys | Where-Object { $_ -ne "CollectionID" })) {
+            $FilterObjs = foreach ($key in ($PSBoundParameters.keys | Where-Object { $_ -notin ("CollectionID","Verbose","Debug") })) {
                 Get-FilterObject $Key $PSBoundParameters[$key]
             }
             $Filter = $FilterObjs | Get-FilterString
-            Invoke-CMGet -URI "$($script:ASWmiURI)SMS_Collection$($Filter)"
+            Invoke-CMGet -URI "$($script:ASWmiURI)SMS_Collection$($Filter)" -verbose
         }
         return $Result | Select-Object -Property * -ExcludeProperty _*, `@odata*
     }
