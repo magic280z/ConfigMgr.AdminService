@@ -40,11 +40,23 @@ function Invoke-CMDelete {
             }
         }
         else {
-            $Params = @{
-                Method               = "DELETE"
-                ContentType          = "application/json"
-                URI                  = $URI
-                UseDefaultCredential = $True
+            if ($script:Credential) {
+               write-verbose "using local credential" 
+               $Params = @{
+                  Method               = "DELETE"
+                  ContentType          = "application/json"
+                  Body                 = $Body | ConvertTo-Json -Depth 100
+                  URI                  = $URI
+                  Credential           = $script:Credential
+                }
+            } else {
+              $Params = @{
+                  Method               = "DELETE"
+                  ContentType          = "application/json"
+                  Body                 = $Body | ConvertTo-Json -Depth 100
+                  URI                  = $URI
+                  UseDefaultCredential = $True
+              }
             }
         }
 
