@@ -9,7 +9,7 @@ function Get-CMASPackage {
             Get-FilterObject $Key $PSBoundParameters[$key]
         }
         $Filter = $FilterObjs | Get-FilterString
-        Invoke-CMGet -URI "$($script:ASWmiURI)SMS_Package$($Filter)" -verbose
+        Invoke-CMGet -URI "$($script:ASWmiURI)SMS_Package$($Filter)"
 
         return $Result | Select-Object -Property * -ExcludeProperty _*, `@odata*
     }
