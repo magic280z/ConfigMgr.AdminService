@@ -60,7 +60,8 @@ function Initialize-CMAdminService {
 
         [parameter(mandatory = $true, parametersetname = "LocalAuth")]
         [switch]$UseLocalAuth,
-        [parameter(mandatory = $true, parametersetname = "LocalAuth")]
+
+        [parameter(mandatory = $false, parametersetname = "LocalAuth")]
         $Credential,
 
         [parameter(mandatory = $false, parametersetname = "UserAuth")]
