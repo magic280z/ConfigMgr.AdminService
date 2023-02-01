@@ -1,4 +1,4 @@
-function Get-CMASTaskSequence {
+function Get-CMTaskSequence {
     [cmdletbinding()]
     param (
         [parameter(mandatory=$true)]

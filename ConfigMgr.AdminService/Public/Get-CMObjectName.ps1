@@ -1,4 +1,4 @@
-function Get-CMASObjectName {
+function Get-CMObjectName {
     [cmdletbinding()]
     param (
         [string]$ObjectKey

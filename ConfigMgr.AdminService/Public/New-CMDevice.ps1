@@ -1,4 +1,4 @@
-function New-CMASDevice {
+function New-CMDevice {
     [cmdletbinding()]    
     param (
         [parameter(Mandatory=$True, ParameterSetName="SMBIOSGUID",HelpMessage="Target computer desired netbiosname")]

@@ -1,4 +1,4 @@
-function Get-CMASPackage {
+function Get-CMPackage {
     [cmdletbinding()]
     param (
         [string]$PackageID
