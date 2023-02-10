@@ -44,20 +44,32 @@ function Invoke-CMGet {
             }
         }
         else {
-          if ($script:Credential) {
-             write-verbose "using local credential" 
+          if ($script:websession) {
+            write-verbose "using websession"
+            $Params = @{
+                Method               = "GET"
+                ContentType          = "application/json"
+                URI                  = $URI
+                Websession           = $websession
+            }
+
+          } elseif ($script:Credential) {
+             write-verbose "using local passed credential" 
              $Params = @{
                 Method               = "GET"
                 ContentType          = "application/json"
                 URI                  = $URI
                 Credential           = $script:Credential
+                SessionVariable      = "websession"
               }
           } else {
+            write-verbose "using local auth"
             $Params = @{
                 Method               = "GET"
                 ContentType          = "application/json"
                 URI                  = $URI
                 UseDefaultCredential = $True
+                SessionVariable      = "websession"
             }
           }
 
@@ -65,6 +77,10 @@ function Invoke-CMGet {
 
         Write-Verbose $URI        
         $Result = Invoke-RestMethod @Params
+
+        if ($params.ContainsKey("Sessionvariable")) {
+          $script:websession = $websession
+        }
 
         if (($Result | Get-Member).Name -eq "Value") {
             return $Result.value

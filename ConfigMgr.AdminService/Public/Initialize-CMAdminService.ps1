@@ -103,9 +103,9 @@ function Initialize-CMAdminService {
             $script:ASWmiURI = "$($ASURI)wmi/"
         }
         if ($UseLocalAuth.IsPresent) {
-            Write-Verbose "Using Local Auth"
+            #Write-Verbose "Using Local Auth"
             if ($credential) {
-              write-verbose "Saving credential"
+              #write-verbose "Saving credential"
               $script:Credential = $credential
             }
         }
