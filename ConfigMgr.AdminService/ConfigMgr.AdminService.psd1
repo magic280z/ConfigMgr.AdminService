@@ -12,7 +12,7 @@
 RootModule = 'ConfigMgr.AdminService.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.230210.3'
+ModuleVersion = '1.0.230210.4'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
