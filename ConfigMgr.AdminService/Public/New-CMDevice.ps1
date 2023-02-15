@@ -27,7 +27,7 @@ function New-CMDevice {
         $Body = @{
           NetbiosName         = $Name
           OverwriteExistingRecord = $overwrite.tostring()
-        }
+        } 
 
         if ($smbiosguid) { $body.add("SMBIOSGUID",$smbiosguid)}
         if ($macaddress) { $body.add("MACAddress",$MacAddress)}

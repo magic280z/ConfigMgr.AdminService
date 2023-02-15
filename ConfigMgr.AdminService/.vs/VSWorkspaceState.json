@@ -4,6 +4,6 @@
     "\\Private",
     "\\Public"
   ],
-  "SelectedNode": "\\Public\\Initialize-CMAdminService.ps1",
+  "SelectedNode": "\\Public\\Get-CMDevice.ps1",
   "PreviewInSolutionExplorer": false
 }
