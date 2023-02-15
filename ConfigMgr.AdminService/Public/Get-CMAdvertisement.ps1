@@ -3,22 +3,23 @@ function Get-CMAdvertisement {
     param (
         [string]$CollectionID,
         [string]$AdvertisementID,
-        [parameter(Mandatory=$True, ParameterSetName="GetAdvertisements",HelpMessage="Method get resource advertisement")]
-        [switch]$GetAdvertisements,
-          [parameter(Mandatory=$True, ParameterSetName="GetAdvertisements",HelpMessage="configmgr resourceid")]
-        [int]$ResourceID
+        [parameter(HelpMessage="SMS_Advertisement method to execute")]
+        [ValidateSet("GetAdvertisements","GetNextID","RiskyDeploymentStatusMessage")]
+        [string]$Method,
+        [parameter(HelpMessage="configmgr resourceid")]
+        [int]$ResourceID,
+        [string]$ProgramName
     )
 
     #execute method getadvertisements
-    if ($getadvertisements){
+    if ($method){
       try {
-        $Body = @{
-          ResourceID         = $ResourceId          
-        }
 
-        #$Body
+        $body = [hashtable]$psboundparameters
 
-        $Result = Invoke-CMPost -URI "$($script:ASWmiURI)SMS_Advertisement.GetAdvertisements" -Body $Body -verbose
+        $body.remove('Method')
+
+        $Result = Invoke-CMPost -URI "$($script:ASWmiURI)SMS_Advertisement.$method" -Body $Body -verbose
         return $Result | Select-Object -Property * -ExcludeProperty _*, `@odata*
       } catch {
         throw $_

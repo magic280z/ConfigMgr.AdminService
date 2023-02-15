@@ -1,9 +1,10 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Enums",
     "\\Private",
     "\\Public"
   ],
-  "SelectedNode": "\\Public\\Get-CMDevice.ps1",
+  "SelectedNode": "\\Public\\Get-CMCollection.ps1",
   "PreviewInSolutionExplorer": false
 }

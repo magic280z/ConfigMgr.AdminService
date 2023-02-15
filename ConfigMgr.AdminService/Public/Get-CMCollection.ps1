@@ -16,7 +16,7 @@ function Get-CMCollection {
                 Get-FilterObject $Key $PSBoundParameters[$key]
             }
             $Filter = $FilterObjs | Get-FilterString
-            Invoke-CMGet -URI "$($script:ASWmiURI)SMS_Collection$($Filter)" -verbose
+            Invoke-CMGet -URI "$($script:ASWmiURI)SMS_Collection$($Filter)"
         }
         return $Result | Select-Object -Property * -ExcludeProperty _*, `@odata*
     }
