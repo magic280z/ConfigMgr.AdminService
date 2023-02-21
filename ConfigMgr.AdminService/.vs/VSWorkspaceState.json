@@ -5,6 +5,6 @@
     "\\Private",
     "\\Public"
   ],
-  "SelectedNode": "\\Public\\Get-CMCollection.ps1",
+  "SelectedNode": "\\Enums\\AdminServiceEnums.psm1",
   "PreviewInSolutionExplorer": false
 }

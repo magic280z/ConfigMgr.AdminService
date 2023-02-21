@@ -7,6 +7,7 @@ function Get-CMDevice {
         [string]$SMSID,
         [string]$SerialNumber,
         [string]$SMBIOSGUID,
+        [string]$MACAddress,
         [string]$Select
     )
 
