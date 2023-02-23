@@ -7,7 +7,7 @@ function Get-CMAdvertisement {
         [ValidateSet("GetAdvertisements","GetNextID","RiskyDeploymentStatusMessage")]
         [string]$Method,
         [parameter(HelpMessage="configmgr resourceid")]
-        [int]$ResourceID,
+        [int64]$ResourceID,
         [string]$ProgramName
     )
 
