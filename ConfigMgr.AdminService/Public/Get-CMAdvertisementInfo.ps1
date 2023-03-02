@@ -7,14 +7,14 @@ function Get-CMAdvertisementInfo {
 
     try {
         $Result = if ($AdvertisementID) {
-            Invoke-CMGet -URI "$($script:ASWmiURI)SMS_AdvertisementInfo('$AdvertisementID')" -verbose  
+            Invoke-CMGet -URI "$($script:ASWmiURI)SMS_AdvertisementInfo('$AdvertisementID')"
         }
         else {
           $FilterObjs = foreach ($key in ($PSBoundParameters.keys | Where-Object { $_ -notin ("Verbose","Debug") })) {
               Get-FilterObject $Key $PSBoundParameters[$key]
           }
           $Filter = $FilterObjs | Get-FilterString
-          Invoke-CMGet -URI "$($script:ASWmiURI)SMS_AdvertisementInfo$($Filter)" -verbose
+          Invoke-CMGet -URI "$($script:ASWmiURI)SMS_AdvertisementInfo$($Filter)"
         }
         return $Result | Select-Object -Property * -ExcludeProperty _*, `@odata*
     }
