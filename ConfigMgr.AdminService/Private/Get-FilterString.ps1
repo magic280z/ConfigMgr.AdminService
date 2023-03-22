@@ -2,7 +2,9 @@ function Get-FilterString {
     [cmdletbinding()]
     param (
         [Parameter(ValueFromPipeline = $true)]
-        $FilterObjs
+        $FilterObjs,
+      [ValidateSet("and","or")]
+      $jointype = 'and'
     )
 
     Add-Type -AssemblyName System.Web -ErrorAction SilentlyContinue
@@ -16,7 +18,7 @@ function Get-FilterString {
                 $_.Value
             }
             if ($_.operator) {"{0} {1} {2}" -f $_.Property, $_.Operator, $value} else {$_.property}
-        } | Where-Object { $_ -ne '' }) -join 'and'))
+        } | Where-Object { $_ -ne '' }) -join " $jointype "))
 
     $Filter = $Filter.trim()
 
