@@ -34,7 +34,7 @@ function New-CMDevice {
 
         #$body
 
-        $Result = Invoke-CMPost -URI "$($script:ASWmiURI)SMS_Site.ImportMachineEntry" -Body $Body
+        $Result = Invoke-CMPost -URI "$($script:ASWmiURI)SMS_Site.ImportMachineEntry" -Body $Body -ReturnErrorToCaller
         #$result = $Result | Select-Object -Property * -ExcludeProperty _*, `@odata*
 
         if ($CollectionID) {
