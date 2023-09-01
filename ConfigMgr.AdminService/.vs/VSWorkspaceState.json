@@ -5,6 +5,6 @@
     "\\Private",
     "\\Public"
   ],
-  "SelectedNode": "\\Public\\Get-CMAdvertisement.ps1",
+  "SelectedNode": "\\Private\\Invoke-CMPost.ps1",
   "PreviewInSolutionExplorer": false
 }
