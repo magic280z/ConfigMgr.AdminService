@@ -106,6 +106,7 @@ function Invoke-CMGet {
                 Write-Host $_.Exception, $_.Exception.InvocationInfo.ScriptLineNumber -ForegroundColor Yellow
                 Write-Host $_.InvocationInfo.PositionMessage -ForegroundColor Yellow
             }
+            throw $_
         }
     }
     #catch [Microsoft.PowerShell.Commands.HttpResponseException] {
