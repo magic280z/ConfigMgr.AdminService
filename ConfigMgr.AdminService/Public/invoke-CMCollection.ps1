@@ -6,16 +6,9 @@ function invoke-CMCollection {
         [parameter(mandatory=$true)]
         [string]$Method
     )
-
-
-    if ($method){
+    if ($Method) {
       try {
-
-        #$body = [hashtable]$psboundparameters
-
-        #$body.remove('Method')
-
-        $Result = Invoke-CMPost -URI "$($script:ASWmiURI)SMS_Collection('$collectionid')/AdminService.$method" -Body $Body
+        $Result = Invoke-CMPost -URI "$($script:ASWmiURI)SMS_Collection('$CollectionID')/AdminService.$Method"
         return $Result | Select-Object -Property * -ExcludeProperty _*, `@odata*
       } catch {
         throw $_

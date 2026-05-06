@@ -7,6 +7,12 @@ function Invoke-CMPost {
         [switch]$ReturnErrorToCaller
     )
     try {
+        $serializedBody = $null
+        $includeBody = $PSBoundParameters.ContainsKey('Body') -and $null -ne $Body
+        if ($includeBody) {
+            $serializedBody = $Body | ConvertTo-Json -Depth 100
+        }
+
         #check if the token is using the secrets token and if so ensure it's current, otherwise refresh it
         if ($URI -like "*AdminService_TokenAuth*" -or $URI -like "*CCM_Proxy_ServerAuth*" -or $URI -like "*CCM_Proxy_MutualAuth*") {
             #check if the token is using the secrets token and if so ensure it's current, otherwise refresh it
@@ -32,8 +38,10 @@ function Invoke-CMPost {
                     }
                     Method      = "POST"
                     ContentType = "application/json"
-                    Body        = $Body | ConvertTo-Json -Depth 100
                     URI         = $URI
+                }
+                if ($includeBody) {
+                    $Params.Body = $serializedBody
                 }
             }
             else {
@@ -47,17 +55,21 @@ function Invoke-CMPost {
              $Params = @{
                 Method               = "POST"
                 ContentType          = "application/json"
-                Body                 = $Body | ConvertTo-Json -Depth 100
                 URI                  = $URI
                 Credential           = $script:Credential
               }
+             if ($includeBody) {
+                $Params.Body = $serializedBody
+             }
           } else {
             $Params = @{
                 Method               = "POST"
                 ContentType          = "application/json"
-                Body                 = $Body | ConvertTo-Json -Depth 100
                 URI                  = $URI
                 UseDefaultCredential = $True
+            }
+            if ($includeBody) {
+                $Params.Body = $serializedBody
             }
           }
         }

@@ -99,14 +99,21 @@ function Initialize-CMAdminService {
         }
         if ($AdminServiceProviderURL) {
             $script:ASURI = if ($AdminServiceProviderURL -notlike '*/') { $AdminServiceProviderURL + "/" } else { $AdminServiceProviderURL }
-            $script:ASVerURI = "$($ASURI)v1.0/"
-            $script:ASWmiURI = "$($ASURI)wmi/"
+            $script:ASVerURI = "$($script:ASURI)v1.0/"
+            $script:ASWmiURI = "$($script:ASURI)wmi/"
         }
         if ($UseLocalAuth.IsPresent) {
-            #Write-Verbose "Using Local Auth"
-            if ($credential) {
-              #write-verbose "Saving credential"
-              $script:Credential = $credential
+            # Switching local-auth mode should not reuse a prior web session that may
+            # have been established under a different auth context.
+            $script:websession = $null
+
+            if ($PSBoundParameters.ContainsKey('Credential') -and $null -ne $Credential) {
+              $script:Credential = $Credential
+              Write-Verbose "Using local passed credential for $($Credential.UserName)"
+            }
+            else {
+              $script:Credential = $null
+              Write-Verbose "Using local auth with default credential context"
             }
         }
         else {
@@ -194,8 +201,8 @@ function Initialize-CMAdminService {
                         }
 
                         $script:ASURI = if ($URL -notlike '*/') { $URL + "/" } else { $URL }
-                        $script:ASVerURI = "$($ASURI)v1.0/"
-                        $script:ASWmiURI = "$($ASURI)wmi/"
+                        $script:ASVerURI = "$($script:ASURI)v1.0/"
+                        $script:ASWmiURI = "$($script:ASURI)wmi/"
                     }
 
                     if (-not $script:AdminServiceAuthToken -or $ReAuthAdminServiceToken) {
